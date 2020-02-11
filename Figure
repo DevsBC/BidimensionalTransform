@@ -1,0 +1,99 @@
+import pygame
+from pygame.locals import *
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+
+def translate_object(distance):
+    glTranslate(distance, distance, 0.0)
+    glBegin(GL_TRIANGLES)
+    glColor(1.0, 0.0, 0.0)
+    glVertex(-1.0, -1.0, 4.0)
+    glColor(0.0, 1.0, 0.0)
+    glVertex(1.0, -1.0, 4.0)
+    glColor(0.0, 0.0, 1.0)
+    glVertex(0.0, 1.0, 4.0)
+    glVertex(0.0, 1.0, 5.0)
+    glEnd()
+
+
+def scale_object(scale):
+    glScale(scale, scale, 0.0)
+    glBegin(GL_TRIANGLES)
+    glColor(1.0, 0.0, 0.0)
+    glVertex(-1.0, -1.0, 4.0)
+    glColor(0.0, 1.0, 0.0)
+    glVertex(1.0, -1.0, 4.0)
+    glColor(0.0, 0.0, 1.0)
+    glVertex(0.0, 1.0, 4.0)
+    glVertex(0.0, 1.0, 5.0)
+    glEnd()
+
+
+def rotate_object(angle):
+    glRotate(angle, 0.0, 0.0, 1)
+    glBegin(GL_TRIANGLES)
+    glColor(1.0, 0.0, 0.0)
+    glVertex(-1.0, -1.0, 4.0)
+    glColor(0.0, 1.0, 0.0)
+    glVertex(1.0, -1.0, 4.0)
+    glColor(0.0, 0.0, 1.0)
+    glVertex(0.0, 1.0, 4.0)
+    glVertex(0.0, 1.0, 5.0)
+    glEnd()
+
+
+def slanted_object(scale):
+    glScale(1.0, scale, 0.0)
+    glBegin(GL_TRIANGLES)
+    glColor(1.0, 0.0, 0.0)
+    glVertex(-1.0, -1.0, 4.0)
+    glColor(0.0, 1.0, 0.0)
+    glVertex(1.0, -1.0, 4.0)
+    glColor(0.0, 0.0, 1.0)
+    glVertex(0.0, 1.0, 4.0)
+    glVertex(0.0, 1.0, 5.0)
+    glEnd()
+
+
+def main():
+    distance = 0
+    angle = 360
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+
+    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+
+    glTranslatef(0.0, 0.0, -10)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        distance = distance + 0.0001
+        if distance > 1:
+            distance = distance - 1
+
+        #translate_object(distance)
+
+        #scale_object(1.2)
+
+        #slanted_object(1.01)
+
+        rotate_object(angle)
+        angle += 1.0
+        if angle > 360:
+            angle -= 360
+
+        pygame.display.flip()
+        pygame.time.wait(10)
+
+
+main()
+
