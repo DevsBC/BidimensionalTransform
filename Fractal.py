@@ -1,8 +1,5 @@
 import pygame
-import sys
 import time
-
-from pygame.locals import *
 
 # Constantes para dibujar en el centro
 SCREEN_WIDTH = 800
@@ -11,33 +8,57 @@ CENTER_X = SCREEN_WIDTH / 2
 CENTER_Y = SCREEN_HEIGHT / 2
 
 max_iteration = 40
-scale = 5.0 / (SCREEN_HEIGHT * 100) # ramas saliendo de la izquierda
-
-
-def init():
-    global screen, atoms, cell, font
-    pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # , pygame.FULLSCREEN
-    # font = pygame.font.Font('Vera.ttf', 9)
-    #pygame.mouse.set_cursor((8, 8), (0, 0), (0,) * int(64 / 8), (0,) * int(64 / 8))  # Trick, no visible cursor
-
-
-def cycle():
-    return
-
-
-def update_screen():
-    global screen, mouse_pos
-    screen.fill((255, 255, 255))
-    draw_field(screen)
-    pygame.display.flip()
+scale = 5.0 / (SCREEN_HEIGHT * 100)  # ramas saliendo de la izquierda
 
 
 def main():
-    #global scale
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Mi Fractal')
+
     while True:
-        update_screen()
+        draw_field(screen)
+        pygame.display.update()
         time.sleep(1000)
+
+
+def draw_field(screen):
+    j = 0 + 1j
+
+    font_my_name = pygame.font.Font('freesansbold.ttf', 24)
+    font_title = pygame.font.Font('freesansbold.ttf', 24)
+    font_definition = pygame.font.Font('freesansbold.ttf', 16)
+    font_source = pygame.font.Font('freesansbold.ttf', 12)
+
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    green = (0, 255, 0)
+    blue = (0, 0, 128)
+
+    my_name = font_my_name.render('Juan Carlos Aranda Alonso', True, green, blue)
+    text_rect = my_name.get_rect().center = (450, 0)
+
+    title = font_title.render('Fractales', True, white, black)
+    second_text_rect = title.get_rect().center = (550, 200)
+
+    definition = font_definition.render('Objeto geometrico compuesto de elementos de aspecto similar', True, white, black)
+    third_text_rect = definition.get_rect().center = (300, 300)
+
+    source = font_source.render('Mandelbrot, B. (1988). The Fractal Geometry of Nature', True, white, black)
+    fourth_text_rect = source.get_rect().center = (450, 350)
+
+    for scr_x in range(SCREEN_WIDTH):
+        for scr_y in range(SCREEN_HEIGHT):
+            x = (scr_x - CENTER_X) * scale - 0.001
+            y = (scr_y - CENTER_Y) * scale - 0.75
+            c = x + y * j
+            iter_value = iteration(c)
+            col = set_color(iter_value)
+            screen.blit(my_name, text_rect)
+            screen.blit(title, second_text_rect)
+            screen.blit(definition, third_text_rect)
+            screen.blit(source, fourth_text_rect)
+            pygame.draw.line(screen, col, (scr_x, scr_y), (scr_x, scr_y))
 
 
 def iteration(c):
@@ -71,17 +92,4 @@ def set_color(i):
         return (r, g, b)
 
 
-def draw_field(scr):
-    j = 0 + 1j
-    for scr_x in range(SCREEN_WIDTH):
-        for scr_y in range(SCREEN_HEIGHT):
-            x = (scr_x - CENTER_X) * scale - 0.001
-            y = (scr_y - CENTER_Y) * scale - 0.75
-            c = x + y * j
-            iter_value = iteration(c)
-            col = set_color(iter_value)
-            pygame.draw.line(scr, col, (scr_x, scr_y), (scr_x, scr_y))
-
-
-init()
 main()
