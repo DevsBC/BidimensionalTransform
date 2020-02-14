@@ -23,7 +23,6 @@ def main():
 
 
 def draw_field(screen):
-    j = 0 + 1j
 
     font_my_name = pygame.font.Font('freesansbold.ttf', 24)
     font_title = pygame.font.Font('freesansbold.ttf', 24)
@@ -51,7 +50,7 @@ def draw_field(screen):
         for scr_y in range(SCREEN_HEIGHT):
             x = (scr_x - CENTER_X) * scale - 0.001
             y = (scr_y - CENTER_Y) * scale - 0.75
-            c = x + y * j
+            c = x + y * 1j
             iter_value = iteration(c)
             col = set_color(iter_value)
             screen.blit(my_name, text_rect)
@@ -89,7 +88,7 @@ def set_color(i):
                 b = 255 * 3 - c
                 if b < 0:
                     r = g = b = 0
-        return (r, g, b)
+        return r, g, b
 
 
 main()
