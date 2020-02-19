@@ -23,18 +23,19 @@ def main():
 
 
 def draw_field(screen):
-    j = 0 + 1j
-
+    # Configuracion de font y size
     font_my_name = pygame.font.Font('freesansbold.ttf', 24)
     font_title = pygame.font.Font('freesansbold.ttf', 24)
     font_definition = pygame.font.Font('freesansbold.ttf', 16)
     font_source = pygame.font.Font('freesansbold.ttf', 12)
 
+    # Colores para mis letras
     black = (0, 0, 0)
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)
 
+    # Establece texto y posicion
     my_name = font_my_name.render('Juan Carlos Aranda Alonso', True, green, blue)
     text_rect = my_name.get_rect().center = (450, 0)
 
@@ -51,13 +52,15 @@ def draw_field(screen):
         for scr_y in range(SCREEN_HEIGHT):
             x = (scr_x - CENTER_X) * scale - 0.001
             y = (scr_y - CENTER_Y) * scale - 0.75
-            c = x + y * j
+            c = x + y * 1j
             iter_value = iteration(c)
             col = set_color(iter_value)
+
             screen.blit(my_name, text_rect)
             screen.blit(title, second_text_rect)
             screen.blit(definition, third_text_rect)
             screen.blit(source, fourth_text_rect)
+
             pygame.draw.line(screen, col, (scr_x, scr_y), (scr_x, scr_y))
 
 
